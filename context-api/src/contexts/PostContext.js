@@ -30,8 +30,21 @@ export const PostProvider = ({ children }) => {
         fetchData();
     }, []);
 
+    const createPost = async (postData) => {
+        try {
+            const response = await axios.post(
+                'https://jsonplaceholder.typicode.com/posts',
+                postData
+            );
+            console.log('after posting', response.data);
+            setData((prev) => [...prev, response.data]);
+        } catch (error) {
+            console.log('Error while creating post', error);
+        }
+    };
+
     return (
-        <PostContext.Provider value={{ data, isLoading, error }}>
+        <PostContext.Provider value={{ data, isLoading, error, createPost }}>
             {children}
         </PostContext.Provider>
     );
